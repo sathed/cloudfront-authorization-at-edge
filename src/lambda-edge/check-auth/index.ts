@@ -102,6 +102,10 @@ export const handler: CloudFrontRequestHandler = async (event) => {
                     key: 'location',
                     value: `https://${CONFIG.cognitoAuthDomain}/oauth2/authorize?${loginQueryString}`
                 }],
+                'content-security-policy': [{
+                    key: 'Content-Security-Policy',
+                    value: "default-src 'none'; img-src 'self'; script-src 'self' *.cloudflare.com; style-src 'self' *.cloudflare.com; object-src 'none'; font-src 'self';"
+                }],
                 'set-cookie': [
                     { key: 'set-cookie', value: `spa-auth-edge-nonce=${encodeURIComponent(state.nonce)}; ${CONFIG.cookieSettings.nonce}` },
                     { key: 'set-cookie', value: `spa-auth-edge-nonce-hmac=${encodeURIComponent(state.nonceHmac)}; ${CONFIG.cookieSettings.nonce}` },
