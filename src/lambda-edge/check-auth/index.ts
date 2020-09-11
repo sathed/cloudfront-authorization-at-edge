@@ -43,6 +43,9 @@ export const handler: CloudFrontRequestHandler = async (event) => {
                         key: 'location',
                         value: `https://${domainName}${CONFIG.redirectPathAuthRefresh}?${stringifyQueryString({ requestedUri, nonce })}`
                     }],
+                    'content-security-policy': [{
+                        key: 'Content-Security-Policy', value: "default-src 'none'; img-src 'self'; script-src 'self' *.cloudflare.com; style-src 'self' *.cloudflare.com; object-src 'none'; font-src 'self';"
+                    }],
                     'set-cookie': [
                         { key: 'set-cookie', value: `spa-auth-edge-nonce=${encodeURIComponent(nonce)}; ${CONFIG.cookieSettings.nonce}` },
                         { key: 'set-cookie', value: `spa-auth-edge-nonce-hmac=${encodeURIComponent(sign(nonce, CONFIG.nonceSigningSecret, CONFIG.nonceLength))}; ${CONFIG.cookieSettings.nonce}` },
